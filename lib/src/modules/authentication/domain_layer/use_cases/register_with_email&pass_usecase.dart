@@ -1,15 +1,17 @@
 //import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:learning/src/modules/authentication/domain_layer/repsitories/base_auth_repository.dart';
 
 class RegisterWithEmailAndPassUseCase {
   final BaseAuthRepository baseAuthRepository;
 
   RegisterWithEmailAndPassUseCase(this.baseAuthRepository);
-  Future excute(
+  Future<Either<FirebaseAuthException, UserCredential?>> excute(
       {required String email,
       required String password,
       required String name}) async {
-    await baseAuthRepository.registerWithEmailAndPass(
+    return await baseAuthRepository.registerWithEmailAndPass(
         email: email, password: password, name: name);
   }
 }

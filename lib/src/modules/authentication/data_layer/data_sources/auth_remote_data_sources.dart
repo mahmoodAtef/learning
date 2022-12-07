@@ -24,16 +24,9 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
   @override
   Future<Either<FirebaseAuthException, UserCredential?>> loginWithEmailAndPass(
       {required String email, required String password}) async {
-    UserCredential? response = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password)
-        .then((value) {
-      Fluttertoast.showToast(
-          msg: 'Login Successfully',
-          textColor: ColorManager.white,
-          backgroundColor: Colors.black);
-      // print('done');
-    });
     try {
+      UserCredential? response = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password);
       return Right(response);
     } on FirebaseAuthException catch (error) {
       return Left(error);
@@ -47,20 +40,17 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
     required String password,
     required String name,
   }) async {
+    try {
     UserCredential? response = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(
       email: email,
       password: password,
     )
         .then((value) async {
-      Fluttertoast.showToast(
-          msg: 'Account created Successfully',
-          textColor: ColorManager.white,
-          backgroundColor: Colors.black);
+
       // print('done');
       await createUser(name: name, uid: value.user!.uid);
     });
-    try {
       return Right(response);
     } on FirebaseAuthException catch (error) {
       return Left(error);

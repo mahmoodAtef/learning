@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:learning/src/core/utils/color_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:learning/src/core/utils/color_manager.dart';
@@ -127,4 +128,15 @@ TextFormField defaultFormField(
     ),
     style: TextStyle(color: ColorManager.primary),
   );
+}
+
+
+ defaultToast ({required String msg , })
+{
+
+   Fluttertoast.showToast(msg: msg , backgroundColor: ColorManager.primary, textColor: ColorManager.white, toastLength: Toast.LENGTH_SHORT ,  );
+}
+errorToast ({required String msg ,}){
+  Fluttertoast.showToast(msg: msg , backgroundColor: ColorManager.error, textColor: ColorManager.white, toastLength: Toast.LENGTH_SHORT ,  );
+
 }

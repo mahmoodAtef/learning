@@ -31,7 +31,7 @@ class AuthRepository extends BaseAuthRepository {
   }
 
   @override
-  Future registerWithEmailAndPass(
+  Future<Either<FirebaseAuthException, UserCredential?>> registerWithEmailAndPass(
       {required String email,
       required String password,
       required String name}) async {

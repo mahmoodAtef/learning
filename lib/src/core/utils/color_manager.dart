@@ -8,4 +8,5 @@ class ColorManager {
   static Color grey2 = Colors.grey;
   static Color white = Colors.white;
   static Color black = Colors.black;
+  static Color error = Colors.red.shade800 ;
 }

@@ -29,20 +29,24 @@ class ChangeVisibilityAuthState extends AuthState {
 
 /// register states
 
-class RegisterLoadingAuthState extends AuthState {
+class RegisterLoadingAuthState extends AuthState
+{
   @override
-  List<Object?> get props => [];
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
 }
 
 class RegisterSuccessfulAuthState extends AuthState {
   @override
-  List<Object?> get props => [];
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+
 }
 
 class RegisterErrorAuthState extends AuthState {
   @override
   // TODO: implement props
-  List<Object?> get props => [];
+  List<Object?> get props => throw UnimplementedError();
 }
 
 /// login states

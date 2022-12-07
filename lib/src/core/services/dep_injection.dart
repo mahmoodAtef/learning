@@ -4,12 +4,15 @@ import 'package:learning/src/modules/authentication/domain_layer/repsitories/bas
 
 import '../../modules/authentication/data_layer/repositories/auth_repository.dart';
 
-final instance = GetIt.instance;
+final sl = GetIt.instance;
 
-Future<void> loginModule() async {
-  BaseAuthRemoteDataSource baseAuthRemoteDataSource = AuthRemoteDataSource();
-  instance.registerLazySingleton(() => baseAuthRemoteDataSource);
+class ServiceLocator {
+  void init() async {
+    BaseAuthRemoteDataSource baseAuthRemoteDataSource = AuthRemoteDataSource();
+    sl.registerLazySingleton(() => baseAuthRemoteDataSource);
 
-  BaseAuthRepository baseAuthRepository = AuthRepository(instance());
-  instance.registerLazySingleton(() => baseAuthRemoteDataSource);
+    BaseAuthRepository baseAuthRepository = AuthRepository(sl());
+    sl.registerLazySingleton(() => baseAuthRepository);
+  }
 }
+

@@ -86,7 +86,7 @@ class RegisterScreen extends StatelessWidget {
                       obscureText: AuthBloc.get(context).currentVisibility,
                       controller: passController,
                       suffixFunction: () {
-                        AuthBloc.get(context).add(ChangeVisibilityEvent(
+                          AuthBloc.get(context).add(ChangeVisibilityEvent(
                             AuthBloc.get(context).currentVisibility));
                       }),
                   SizedBox(height: QueryValues.height(context) * .037),
