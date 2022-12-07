@@ -4,16 +4,19 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
+import 'package:learning/src/core/local/shared_prefrences.dart';
 import 'package:learning/src/core/services/dep_injection.dart';
 import 'package:learning/src/core/utils/theme_manager.dart';
+import 'package:learning/src/modules/authentication/presentation_layer/screens/forget_password.dart';
 import 'package:learning/src/modules/authentication/presentation_layer/screens/main_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   //Firebase.initializeApp() ;
   WidgetsFlutterBinding.ensureInitialized();
   ServiceLocator().init();
 await  Firebase.initializeApp();
-
+ await  CacheHelper.init();
   runApp(const MyApp());
 }
 

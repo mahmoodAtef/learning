@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:learning/src/core/local/shared_prefrences.dart';
 import 'package:learning/src/core/utils/color_manager.dart';
 
 abstract class BaseAuthRemoteDataSource {
@@ -18,6 +20,8 @@ abstract class BaseAuthRemoteDataSource {
           required String password,
           required String name});
   Future createUser({required String name, required String uid});
+  Future<Either<FirebaseAuthException, void>> forgetPassword(
+      {required String email});
 }
 
 class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
@@ -26,7 +30,10 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
       {required String email, required String password}) async {
     try {
       UserCredential? response = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password);
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) async {
+        await CacheHelper.saveData(key: 'uid', value: value.user!.uid);
+      });
       return Right(response);
     } on FirebaseAuthException catch (error) {
       return Left(error);
@@ -41,16 +48,16 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
     required String name,
   }) async {
     try {
-    UserCredential? response = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    )
-        .then((value) async {
-
-      // print('done');
-      await createUser(name: name, uid: value.user!.uid);
-    });
+      UserCredential? response = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      )
+          .then((value) async {
+        // print('done');
+        await createUser(name: name, uid: value.user!.uid);
+        await CacheHelper.saveData(key: 'uid', value: value.user!.uid);
+      });
       return Right(response);
     } on FirebaseAuthException catch (error) {
       return Left(error);
@@ -58,13 +65,31 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
   }
 
   @override
-  Future createUser({required String name, required String uid}) {
-    FirebaseFirestore.instance
+  Future createUser({required String name, required String uid}) async {
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(uid)
         .set({"name": name}).then((value) {
       // print ('done .. ');
+    }).catchError((error) {
+      print(error.toString());
     });
-    throw Exception();
+    //throw Exception();
+  }
+
+  @override
+  Future<Either<FirebaseAuthException, void>> forgetPassword(
+      {required String email}) async {
+    print(
+        "forgetPassword forgetPassword forgetPassword forgetPassword forgetPassword forgetPassword");
+    try {
+      void response =
+          await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      return Right(response);
+    } on FirebaseAuthException catch (error) {
+      return Left(error);
+      print(error.message);
+    }
+    throw UnimplementedError();
   }
 }

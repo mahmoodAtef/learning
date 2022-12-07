@@ -3,10 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:learning/src/core/utils/color_manager.dart';
+import 'package:learning/src/core/utils/navigation_manager.dart';
 import 'package:learning/src/modules/authentication/presentation_layer/components/components.dart';
 import 'package:sign_button/sign_button.dart';
 import '../../../../core/utils/values_manager.dart';
+import '../../../courses/presentation_layer/screens/main_screen.dart';
 import '../bloc/auth_bloc.dart';
+import 'forget_password.dart';
 
 class LoginScreen extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
@@ -20,7 +23,11 @@ class LoginScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => AuthBloc(AuthInitial()),
       child: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is LoginSuccessfulAuthState) {
+            NavigationManager.pushAndRemove(state.context, MainScreen());
+          }
+        },
         builder: (context, state) {
           return SafeArea(
             child: Padding(
@@ -75,9 +82,11 @@ class LoginScreen extends StatelessWidget {
                     Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              NavigationManager.push(context, ForgetPassword());
+                            },
                             child: Text(
-                              'forget password ?',
+                              'forgot password ?',
                               style: TextStyle(
                                 color: ColorManager.black,
                                 fontWeight: FontWeight.w400,
@@ -99,11 +108,12 @@ class LoginScreen extends StatelessWidget {
                                     color: ColorManager.primary,
                                     borderRadius: BorderRadius.circular(20)),
                                 child: MaterialButton(
-                                  onPressed: () {
+                                  onPressed: () async {
                                     if (formKey.currentState!.validate()) {
                                       AuthBloc.get(context).add(LoginEvent(
                                           email: emailController.text,
-                                          password: passController.text));
+                                          password: passController.text,
+                                          context: context));
                                     }
                                   },
                                   child: Text(

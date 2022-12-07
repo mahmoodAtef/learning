@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:learning/src/core/utils/color_manager.dart';
+import 'package:learning/src/core/utils/navigation_manager.dart';
 import 'package:learning/src/core/utils/values_manager.dart';
 import 'package:learning/src/modules/authentication/presentation_layer/components/components.dart';
+import 'package:learning/src/modules/courses/presentation_layer/screens/main_screen.dart';
 import 'package:sign_button/sign_button.dart';
 
 import '../bloc/auth_bloc.dart';
@@ -26,7 +28,9 @@ class RegisterScreen extends StatelessWidget {
     return SafeArea(
       child: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          // TODO: implement listener
+          if (state is RegisterSuccessfulAuthState) {
+            NavigationManager.pushAndRemove(state.context, MainScreen());
+          }
         },
         builder: (context, state) {
           return Padding(
@@ -86,7 +90,7 @@ class RegisterScreen extends StatelessWidget {
                       obscureText: AuthBloc.get(context).currentVisibility,
                       controller: passController,
                       suffixFunction: () {
-                          AuthBloc.get(context).add(ChangeVisibilityEvent(
+                        AuthBloc.get(context).add(ChangeVisibilityEvent(
                             AuthBloc.get(context).currentVisibility));
                       }),
                   SizedBox(height: QueryValues.height(context) * .037),
@@ -105,67 +109,47 @@ class RegisterScreen extends StatelessWidget {
                   SizedBox(
                     height: height * .055,
                   ),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: ColorManager.primary,
-                        borderRadius: BorderRadius.circular(20)),
-                    child: MaterialButton(
-                      onPressed: () {
-                        if (formKey.currentState!.validate() == true) {
-                          if (passController.text ==
-                              confirmPassController.text) {
-                            if (passController.text.length >= 6) {
-                              AuthBloc.get(context).add(RegisterEvent(
-                                  email: emailController.text,
-                                  password: passController.text,
-                                  name: nameController.text));
-                            } else {
-                              print('error');
-                              //Toast.show("Toast plugin app", duration: Toast.lengthShort, gravity:  Toast.bottom);
-
-                              Fluttertoast.showToast(
-                                msg:
-                                    ' Password should be at least 6 characters',
-                                backgroundColor: ColorManager.primary,
-                                textColor: ColorManager.white,
-                                toastLength: Toast.LENGTH_SHORT,
-                              ).then((value) {
-                                print(value);
-                              }).catchError((e) {
-                                print(e.toString() + "err");
-                              });
-                              //  AuthBloc.get(context).add(ShowToastEvent('Passwords don\'t match'  ));
-
-                            }
-                          } else {
-                            print('error');
-                            //Toast.show("Toast plugin app", duration: Toast.lengthShort, gravity:  Toast.bottom);
-
-                            Fluttertoast.showToast(
-                              msg: 'Passwords don\'t match',
-                              backgroundColor: ColorManager.primary,
-                              textColor: ColorManager.white,
-                              toastLength: Toast.LENGTH_SHORT,
-                            ).then((value) {
-                              print(value);
-                            }).catchError((e) {
-                              print(e.toString() + "err");
-                            });
-                            //  AuthBloc.get(context).add(ShowToastEvent('Passwords don\'t match'  ));
-
-                          }
-                        }
-                      },
-                      child: Text(
-                        'Sign up',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                            color: ColorManager.white),
-                      ),
-                    ),
-                  ),
+                  state is RegisterLoadingAuthState
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: ColorManager.primary,
+                          ),
+                        )
+                      : Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              color: ColorManager.primary,
+                              borderRadius: BorderRadius.circular(20)),
+                          child: MaterialButton(
+                            onPressed: () async {
+                              if (formKey.currentState!.validate() == true) {
+                                if (passController.text ==
+                                    confirmPassController.text) {
+                                  if (passController.text.length >= 6) {
+                                    AuthBloc.get(context).add(RegisterEvent(
+                                        email: emailController.text,
+                                        password: passController.text,
+                                        name: nameController.text,
+                                        context: context));
+                                  } else {
+                                    defaultToast(
+                                        msg:
+                                            'Password should be at least 6 characters');
+                                  }
+                                } else {
+                                  defaultToast(msg: 'Passwords don\'t match');
+                                }
+                              }
+                            },
+                            child: Text(
+                              'Sign up',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  color: ColorManager.white),
+                            ),
+                          ),
+                        ),
                   SizedBox(
                     height: QueryValues.height(context) * .050,
                   ),

@@ -9,8 +9,8 @@ class MainAuth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthBloc(AuthInitial()),
-      child: BlocBuilder<AuthBloc, AuthState>(
+      create: (context) => AuthBloc (AuthInitial()),
+      child: BlocBuilder<AuthBloc, AuthState> (
         builder: (context, state) {
           final double height = QueryValues.height(context);
           final double width = QueryValues.width(context);

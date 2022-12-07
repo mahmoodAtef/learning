@@ -8,7 +8,7 @@ import '../repsitories/base_auth_repository.dart';
 class LoginWithEmailAndPassUseCase {
   final BaseAuthRepository baseAuthRepository;
 
-  LoginWithEmailAndPassUseCase(this.baseAuthRepository);
+ LoginWithEmailAndPassUseCase(this.baseAuthRepository);
   Future<Either<FirebaseAuthException, UserCredential?>>   excute({required String email, required String password}) async {
     return await baseAuthRepository.loginWithEmailAndPass(
         email: email, password: password);

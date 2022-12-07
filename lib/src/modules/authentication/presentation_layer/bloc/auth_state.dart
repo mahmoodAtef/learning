@@ -11,7 +11,6 @@ class AuthInitial extends AuthState {
 
 class ChangeButtonAuthState extends AuthState {
   final int index;
-
   ChangeButtonAuthState({required this.index});
 
   @override
@@ -29,18 +28,17 @@ class ChangeVisibilityAuthState extends AuthState {
 
 /// register states
 
-class RegisterLoadingAuthState extends AuthState
-{
+class RegisterLoadingAuthState extends AuthState {
   @override
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
 }
 
 class RegisterSuccessfulAuthState extends AuthState {
+  BuildContext context;
+  RegisterSuccessfulAuthState({required this.context});
   @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
-
+  List<Object?> get props => [context];
 }
 
 class RegisterErrorAuthState extends AuthState {
@@ -58,9 +56,11 @@ class LoginLoadingAuthState extends AuthState {
 }
 
 class LoginSuccessfulAuthState extends AuthState {
+  BuildContext context;
+  LoginSuccessfulAuthState({required this.context});
   @override
   // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [context];
 }
 
 class LoginErrorAuthState extends AuthState {
@@ -72,5 +72,12 @@ class LoginErrorAuthState extends AuthState {
 class ShowToastState extends AuthState {
   @override
   // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+}
+
+/// forget password states
+
+class SendEmailSuccessfulAuthState extends AuthState {
+  @override
   List<Object?> get props => throw UnimplementedError();
 }

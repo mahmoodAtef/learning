@@ -31,10 +31,11 @@ class AuthRepository extends BaseAuthRepository {
   }
 
   @override
-  Future<Either<FirebaseAuthException, UserCredential?>> registerWithEmailAndPass(
-      {required String email,
-      required String password,
-      required String name}) async {
+  Future<Either<FirebaseAuthException, UserCredential?>>
+      registerWithEmailAndPass(
+          {required String email,
+          required String password,
+          required String name}) async {
     return baseAuthRemoteDataSource.registerWithEmailAndPass(
         email: email, password: password, name: name);
 
@@ -50,6 +51,14 @@ class AuthRepository extends BaseAuthRepository {
   @override
   Future registerWithGmail() {
     // TODO: implement registerWithGmail
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<FirebaseAuthException, void>> forgetPassword(
+      {required String email}) async {
+    return await baseAuthRemoteDataSource.forgetPassword(email: email);
+
     throw UnimplementedError();
   }
 }

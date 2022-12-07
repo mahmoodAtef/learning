@@ -173,13 +173,13 @@ Widget onGoingBuilder(int i , Course course){
   );
 }
 
-AppBar defaultAppBar ({required String title ,
+AppBar defaultAppBar ({ required String  title ,
   IconData? leading , List <IconData>? actions }){
   return AppBar(
     backgroundColor: ColorManager.white,
     centerTitle: true,
     title: Text(
-      title,
+      title!,
     ),
     leading: Icon(
       // ignore: unnecessary_null_in_if_null_operators

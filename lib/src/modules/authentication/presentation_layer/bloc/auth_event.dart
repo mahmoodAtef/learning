@@ -12,32 +12,29 @@ class ChangeButtonAuthenticationEvent extends AuthEvent {
   List<Object?> get props => [index];
 }
 
-class ShowToastEvent extends AuthEvent {
-  String msg;
-  ShowToastEvent(this.msg);
-  @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
-}
-
 class LoginEvent extends AuthEvent {
   String email;
   String password;
-
-  LoginEvent({required this.email, required this.password});
+  final context;
+  LoginEvent(
+      {required this.email, required this.password, required this.context});
 
   @override
-  List<Object?> get props => [email, password];
+  List<Object?> get props => [email, password, context];
 }
 
 class RegisterEvent extends AuthEvent {
   String email;
   String password;
   String name;
+  final BuildContext context;
   RegisterEvent(
-      {required this.email, required this.password, required this.name});
+      {required this.email,
+      required this.password,
+      required this.name,
+      required this.context});
   @override
-  List<Object?> get props => [email, password];
+  List<Object?> get props => [email, password, context];
 }
 
 class ChangeVisibilityEvent extends AuthEvent {
@@ -46,4 +43,11 @@ class ChangeVisibilityEvent extends AuthEvent {
   @override
   // TODO: implement props
   List<Object?> get props => [isVisible];
+}
+
+class ForgetPasswordAuthEvent extends AuthEvent {
+  final String email;
+  ForgetPasswordAuthEvent({required this.email});
+  @override
+  List<Object?> get props => [email];
 }
