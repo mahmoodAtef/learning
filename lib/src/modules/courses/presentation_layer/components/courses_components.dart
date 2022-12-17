@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
+import 'package:learning/src/modules/courses/domain_layer/entities/ongoing_data.dart';
 
 import '../../../../core/utils/color_manager.dart';
 import '../../../../core/utils/font_manager.dart';
@@ -29,7 +30,7 @@ Widget courseBuilder({required Course course , context, }) {
                 'https://photo-cdn2.icons8.com/eSz8riIW0lCe9I4G7drTXJV2hp4W31F03_SJlOb6R-w/rs:fit:1590:1072/wm:1:re:0:0:0.65/wmid:moose/q:98/czM6Ly9pY29uczgu/bW9vc2UtcHJvZC5h/c3NldHMvYXNzZXRz/L3NhdGEvb3JpZ2lu/YWwvNTUxL2QzYmZi/OWI3LTU1YjUtNDIz'
                 '/Zi1iZWQyLWUyN2Uz/MWVkMTY2MC5qcGc.jpg'
             , ) , fit: BoxFit.cover)),),
-            
+
             Expanded(child: Container(
               padding: EdgeInsets.zero,
               width: double.maxFinite,
@@ -51,7 +52,7 @@ Widget courseBuilder({required Course course , context, }) {
                   children: [
                  //   const Text ('rate :', style:  const TextStyle (fontWeight:  FontWeightManager.medium, fontSize: FontSizeManager.s18),),
                     RatingStars(
-                      value: course.rating,
+                      value: course.rate,
                       starBuilder: (index, color) => Icon(
                         Icons.star,
                         color: color,
@@ -89,7 +90,7 @@ Widget courseBuilder({required Course course , context, }) {
   );
 }
 Widget onGoingBuilder(int i , Course course){
-  return  i % 2 == 0 ? 
+  return  i % 2 == 0 ?
  Container(
     width: 330,
    padding: const EdgeInsets.all(PaddingManager.p10),
@@ -122,11 +123,11 @@ Widget onGoingBuilder(int i , Course course){
        ),
      ),
      Expanded(
-       child: Slider(value: course.completed,
+       child: Slider(value: 90, // Todo: Complete this
          onChanged: (value){} , activeColor:
          ColorManager.yellow,max: 100,min: 0,thumbColor: ColorManager.yellow,),
      ),
-     Text("Competed ${course.completed} %", style: TextStyle(color: ColorManager.white),)
+     Text("Competed ${90} %", style: TextStyle(color: ColorManager.white),)
 
    ],),
 
@@ -162,11 +163,11 @@ Widget onGoingBuilder(int i , Course course){
         ),
       ),
       Expanded(
-        child: Slider(value: course.completed,
+        child: Slider(value: 60,
           onChanged: (value){} , activeColor:
           ColorManager.primary,max: 100,min: 0,thumbColor: ColorManager.primary,),
       ),
-      Text("Competed ${course.completed} %", style: TextStyle(color: ColorManager.white),)
+      Text("Competed ${60} %", style: TextStyle(color: ColorManager.white),)
 
     ],),
 
@@ -174,17 +175,15 @@ Widget onGoingBuilder(int i , Course course){
 }
 
 AppBar defaultAppBar ({ required String  title ,
-  IconData? leading , List <IconData>? actions }){
+  Widget ? leading , List <IconData>? actions ,  }){
   return AppBar(
+
     backgroundColor: ColorManager.white,
     centerTitle: true,
     title: Text(
       title!,
     ),
-    leading: Icon(
-      // ignore: unnecessary_null_in_if_null_operators
-      leading ?? null ,
-    ),
+    leading: leading ?? null,
     actions : actions != null ? actions.map((e) =>  Padding(
       padding : const EdgeInsets.all(PaddingManager.p8),
       child: Padding(
@@ -196,6 +195,7 @@ AppBar defaultAppBar ({ required String  title ,
       ),
     )).toList() : null ,
     shape: StadiumBorder(),
+
   );
 }
 
@@ -228,7 +228,7 @@ padding: EdgeInsets.zero,
                     width: QueryValues.width(context) /5,
                     decoration: BoxDecoration (
                       borderRadius: BorderRadius.all(Radius.circular(SizeManager.s10)),
-                      image: DecorationImage (image: NetworkImage (video.Image),  fit: BoxFit.cover)
+                      image: DecorationImage (image: NetworkImage (video.image),  fit: BoxFit.cover)
                     ),
                   ),
                   Container
@@ -270,15 +270,15 @@ padding: EdgeInsets.zero,
 }
 List  <Video> videosTest  =
 [
-  Video(url: '', Image: 'https://www.bing.com/th?id=OIP.MZF3Wgi_8LDeVbwG1j92aA'
+  Video(url: '', image: 'https://www.bing.com/th?id=OIP.MZF3Wgi_8LDeVbwG1j92aA'
       'HaLH&w=204&h=306&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2', time: '20:02', title: 'Video 1 Title Video 1 Title Video 1 Title Video 1 Title Video 1 TitleVideo 1 Title Video 1 Title Video 1 Title Video 1 Title '),
-  Video(url: '', Image: 'https://www.bing.com/th?id=OIP.MZF3Wgi_8LDeVbwG1j92aA'
+  Video(url: '', image: 'https://www.bing.com/th?id=OIP.MZF3Wgi_8LDeVbwG1j92aA'
       'HaLH&w=204&h=306&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2', time: '20:02',),
-  Video(url: '', Image: 'https://www.bing.com/th?id=OIP.MZF3Wgi_8LDeVbwG1j92aA'
+  Video(url: '', image: 'https://www.bing.com/th?id=OIP.MZF3Wgi_8LDeVbwG1j92aA'
       'HaLH&w=204&h=306&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2', time: '20:02', title: 'Video 1 Title Video 1 Title Video 1 Title Video 1 Title Video 1 TitleVideo 1 Title Video 1 Title Video 1 Title Video 1 Title '),
-  Video(url: '', Image: 'https://www.bing.com/th?id=OIP.MZF3Wgi_8LDeVbwG1j92aA'
+  Video(url: '', image: 'https://www.bing.com/th?id=OIP.MZF3Wgi_8LDeVbwG1j92aA'
       'HaLH&w=204&h=306&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2', time: '20:02', title: 'Video 1 Title Video 1 Title Video 1 Title Video 1 Title Video 1 TitleVideo 1 Title Video 1 Title Video 1 Title Video 1 Title '),
-  Video (url: '', Image: 'https://www.bing.com/th?id=OIP.MZF3Wgi_8LDeVbwG1j92aA'
+  Video (url: '', image: 'https://www.bing.com/th?id=OIP.MZF3Wgi_8LDeVbwG1j92aA'
       'HaLH&w=204&h=306&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2', time: '20:02', title: 'Video 1 Title Video 1 Title Video 1 Title Video 1 Title Video 1 TitleVideo 1 Title Video 1 Title Video 1 Title Video 1 Title '),
 
 
@@ -291,7 +291,7 @@ class CourseTest extends StatelessWidget {
       backgroundColor: Colors.grey[100],
       appBar: AppBar(backgroundColor: ColorManager.primary,),
       body:
-      Center(child: courseBuilder(course: Course(name: 'lol', completed: 0 , rating: 3.5) , context: context),),);
+      Center(child: courseBuilder(course: Course (name: 'lol', rate: 3.5,  instructor:  "ahmed",videos: [], rating: 2.2) , context: context , ),),);
   }
 }
 

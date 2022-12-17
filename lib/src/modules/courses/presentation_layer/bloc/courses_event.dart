@@ -3,16 +3,19 @@ part of 'courses_bloc.dart';
 abstract class CoursesEvent extends Equatable {
   const CoursesEvent();
 }
-class ShowDrawerEvent extends CoursesEvent{
-  const ShowDrawerEvent();
 
+class GetUserEvent extends CoursesEvent{
+String uid ;
+GetUserEvent({required this.uid});
   @override
+
   List<Object?> get props => [];
 }
 
-class GetOngoingCoursesEvent extends CoursesEvent{
+class GetOngoingCoursesEvent extends CoursesEvent
+{
+  
   @override
-
   List<Object?> get props => [];
 }
 

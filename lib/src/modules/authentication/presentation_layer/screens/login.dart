@@ -1,4 +1,3 @@
-import 'package:animated_button_bar/animated_button_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,11 +23,20 @@ class LoginScreen extends StatelessWidget {
       create: (context) => AuthBloc(AuthInitial()),
       child: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is LoginSuccessfulAuthState) {
-            NavigationManager.pushAndRemove(state.context, MainScreen());
+          print (state.toString());
+          if (state is LoginSuccessfulAuthState)
+          {
+            print ('statttttttttttttttttttttttttttttttttttttte');
+            NavigationManager.pushAndRemove(state.context, const MainScreen());
           }
         },
         builder: (context, state) {
+          print ('state : '+state.toString());
+          if (state is LoginSuccessfulAuthState)
+          {
+            print ('statttttttttttttttttttttttttttttttttttttte');
+            NavigationManager.pushAndRemove(state.context, const MainScreen());
+          }
           return SafeArea(
             child: Padding(
               padding: EdgeInsets.symmetric(

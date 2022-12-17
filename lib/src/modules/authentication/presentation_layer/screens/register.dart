@@ -1,9 +1,7 @@
-// ignore_for_file: avoid_print
 
-import 'package:animated_button_bar/animated_button_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:learning/src/core/utils/color_manager.dart';
 import 'package:learning/src/core/utils/navigation_manager.dart';
 import 'package:learning/src/core/utils/values_manager.dart';
@@ -14,8 +12,11 @@ import 'package:sign_button/sign_button.dart';
 import '../bloc/auth_bloc.dart';
 
 class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     TextEditingController emailController = TextEditingController();
     TextEditingController nameController = TextEditingController();
     TextEditingController passController = TextEditingController();
@@ -25,11 +26,12 @@ class RegisterScreen extends StatelessWidget {
 
     final double height = QueryValues.height(context);
     final double width = QueryValues.width(context);
-    return SafeArea(
+    return SafeArea
+      (
       child: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is RegisterSuccessfulAuthState) {
-            NavigationManager.pushAndRemove(state.context, MainScreen());
+           NavigationManager.pushAndRemove(state.context, MainScreen());
           }
         },
         builder: (context, state) {

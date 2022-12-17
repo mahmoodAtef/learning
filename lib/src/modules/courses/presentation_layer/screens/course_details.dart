@@ -17,7 +17,8 @@ class CourseDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  defaultAppBar(title: 'Details' ,leading: Icons.arrow_back_ios, actions:
+      appBar:  defaultAppBar (title: 'Details' ,leading: IconButton(onPressed: (){},
+          icon: Icon(Icons.arrow_back_ios)), actions:
       [
         Icons.bookmark
       ]),
@@ -71,7 +72,7 @@ class CourseDetails extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: PaddingManager.p10),
               child: MaterialButton(onPressed: (){}, child: Text('More Details ', style: TextStyle(color: ColorManager.white, fontWeight: FontWeightManager.bold),), color: ColorManager.primary, elevation: 5,),
             ),
-              
+
             ],
           ),
         ),

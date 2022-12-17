@@ -38,12 +38,12 @@ class RegisterSuccessfulAuthState extends AuthState {
   BuildContext context;
   RegisterSuccessfulAuthState({required this.context});
   @override
-  List<Object?> get props => [context];
+  List<Object?> get props =>  [context];
 }
 
 class RegisterErrorAuthState extends AuthState {
   @override
-  // TODO: implement props
+
   List<Object?> get props => throw UnimplementedError();
 }
 
@@ -51,33 +51,27 @@ class RegisterErrorAuthState extends AuthState {
 
 class LoginLoadingAuthState extends AuthState {
   @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+
+  List<Object?> get props => [];
 }
 
 class LoginSuccessfulAuthState extends AuthState {
   BuildContext context;
   LoginSuccessfulAuthState({required this.context});
   @override
-  // TODO: implement props
+
   List<Object?> get props => [context];
 }
 
 class LoginErrorAuthState extends AuthState {
   @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
-}
 
-class ShowToastState extends AuthState {
-  @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
 
 /// forget password states
 
 class SendEmailSuccessfulAuthState extends AuthState {
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => throw UnimplementedError ();
 }

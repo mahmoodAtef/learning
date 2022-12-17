@@ -29,10 +29,13 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
   Future<Either<FirebaseAuthException, UserCredential?>> loginWithEmailAndPass(
       {required String email, required String password}) async {
     try {
-      UserCredential? response = await FirebaseAuth.instance
+      final response = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) async {
-        await CacheHelper.saveData(key: 'uid', value: value.user!.uid);
+        await CacheHelper.saveData(key: 'uid', value: value.user!.uid).then((value) {
+          print ("saved");
+        });
+
       });
       return Right(response);
     } on FirebaseAuthException catch (error) {

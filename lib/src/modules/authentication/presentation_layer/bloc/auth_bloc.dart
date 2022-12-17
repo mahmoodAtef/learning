@@ -32,7 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     currentVisibility = !currentVisibility;
     currentSuffix = currentVisibility ? Icons.visibility : Icons.visibility_off;
     type =
-        currentVisibility ? TextInputType.text : TextInputType.visiblePassword;
+    currentVisibility ? TextInputType.text : TextInputType.visiblePassword;
   }
 
   AuthBloc(AuthInitial authInitial) : super(AuthInitial()) {
