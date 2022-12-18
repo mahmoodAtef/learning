@@ -41,7 +41,7 @@ child: Padding(
     SizedBox(height: height * .037),
     Text
       (
-      'Welcome ${ state is GetUserSuccessfulState ? state.user.name: ".."  }',
+      'Welcome ${ CoursesBloc.get(context).user.name != null ? CoursesBloc.get(context).user.name: ".."  }',
       style: TextStyle
         (
      color: ColorManager.black,
@@ -144,7 +144,7 @@ child: Padding(
                  )),
                ],
              )),
-       //  body: CoursesBloc.get(context).currentPage,
+         body: CoursesBloc.get(context).currentPage,
        );
      },
       ),

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
+import 'package:learning/src/modules/courses/domain_layer/entities/ongoing_course.dart';
 import 'package:learning/src/modules/courses/domain_layer/entities/ongoing_data.dart';
 
 import '../../../../core/utils/color_manager.dart';
@@ -89,7 +90,7 @@ Widget courseBuilder({required Course course , context, }) {
     )
   );
 }
-Widget onGoingBuilder(int i , Course course){
+Widget onGoingBuilder (int i , OnGoingCourse course){
   return  i % 2 == 0 ?
  Container(
     width: 330,
@@ -99,8 +100,11 @@ Widget onGoingBuilder(int i , Course course){
    ),
    height: 200,
 // width: 400,
-   child: Column(children:
+   child: Column(
+     children:
+
    [
+
      Expanded(
        child: Padding(
          padding: const EdgeInsets.all(10.0),
@@ -110,24 +114,37 @@ Widget onGoingBuilder(int i , Course course){
              height: 60,
              decoration:  BoxDecoration (color: ColorManager.white,
                borderRadius: BorderRadius.circular(SizeManager.s8, ),
-               image: DecorationImage (image: NetworkImage(course.image!))
+               image: DecorationImage (image: NetworkImage("${course.image}"))
              ),
            ),
            const SizedBox(width: 20,),
-           Expanded(child: Text(course.name, style: TextStyle
-             (color:
-           ColorManager.white , fontWeight:
-           FontWeightManager.bold,
-               fontSize: FontSizeManager.s18), maxLines: 2 ,overflow: TextOverflow.ellipsis,))
+           Expanded(
+             child: Column(
+               crossAxisAlignment:  CrossAxisAlignment.start,
+               children:
+               [
+                 Expanded(child: Text('${course.name}', style: TextStyle
+                   (color:
+                 ColorManager.white , fontWeight:
+                 FontWeightManager.bold,
+                     fontSize: FontSizeManager.s18), maxLines: 2 ,overflow: TextOverflow.ellipsis,)),
+                 Text('By : ${course.instructor}', style: TextStyle
+                   (color:
+                 ColorManager.white , fontWeight:
+                 FontWeightManager.regular,
+                     fontSize: FontSizeManager.s14), maxLines: 1 ,overflow: TextOverflow.ellipsis,)
+               ],
+             ),
+           )
          ],),
        ),
      ),
      Expanded(
-       child: Slider(value: 90, // Todo: Complete this
+       child: Slider(value: course.completed.toDouble(), // Todo: Complete this
          onChanged: (value){} , activeColor:
          ColorManager.yellow,max: 100,min: 0,thumbColor: ColorManager.yellow,),
      ),
-     Text("Competed ${90} %", style: TextStyle(color: ColorManager.white),)
+     Text("Competed ${course.completed} %", style: TextStyle(color: ColorManager.white),)
 
    ],),
 
@@ -144,30 +161,43 @@ Widget onGoingBuilder(int i , Course course){
       Expanded(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Row(children: [
+          child:Row(children: [
             Container(
               width: 60,
               height: 60,
               decoration:  BoxDecoration (color: ColorManager.white,
                   borderRadius: BorderRadius.circular(SizeManager.s8, ),
-                  image: DecorationImage (image: NetworkImage(course.image!))
+                  image: DecorationImage (image: NetworkImage("${course.image}"))
               ),
             ),
             const SizedBox(width: 20,),
-            Expanded(child: Text(course.name, style: TextStyle
-              (color:
-            ColorManager.white , fontWeight:
-            FontWeightManager.bold,
-                fontSize: FontSizeManager.s18), maxLines: 2 ,overflow: TextOverflow.ellipsis,))
+            Expanded(
+              child: Column(
+                crossAxisAlignment:  CrossAxisAlignment.start,
+                children:
+                [
+                  Expanded(child: Text('${course.name}', style: TextStyle
+                    (color:
+                  ColorManager.white , fontWeight:
+                  FontWeightManager.bold,
+                      fontSize: FontSizeManager.s18), maxLines: 2 ,overflow: TextOverflow.ellipsis,)),
+                  Text('By : ${course.instructor}', style: TextStyle
+                    (color:
+                  ColorManager.white , fontWeight:
+                  FontWeightManager.regular,
+                      fontSize: FontSizeManager.s14), maxLines: 1 ,overflow: TextOverflow.ellipsis,)
+                ],
+              ),
+            )
           ],),
         ),
       ),
       Expanded(
-        child: Slider(value: 60,
+        child: Slider(value: course.completed.toDouble(),
           onChanged: (value){} , activeColor:
           ColorManager.primary,max: 100,min: 0,thumbColor: ColorManager.primary,),
       ),
-      Text("Competed ${60} %", style: TextStyle(color: ColorManager.white),)
+      Text("Competed ${course.completed} %", style: TextStyle(color: ColorManager.white),)
 
     ],),
 
@@ -291,7 +321,7 @@ class CourseTest extends StatelessWidget {
       backgroundColor: Colors.grey[100],
       appBar: AppBar(backgroundColor: ColorManager.primary,),
       body:
-      Center(child: courseBuilder(course: Course (name: 'lol', rate: 3.5,  instructor:  "ahmed",videos: [], rating: 2.2) , context: context , ),),);
+      Center(child: courseBuilder(course: Course (name: 'lol', rate: 3.5,  instructor:  "ahmed",videos: [],) , context: context , ),),);
   }
 }
 

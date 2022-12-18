@@ -14,9 +14,10 @@ GetUserEvent({required this.uid});
 
 class GetOngoingCoursesEvent extends CoursesEvent
 {
-  
+  List <OnGoingData> ongoingData ;
+  GetOngoingCoursesEvent({required this.ongoingData});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [ongoingData];
 }
 
 class GetMostPopularCoursesEvent extends CoursesEvent{

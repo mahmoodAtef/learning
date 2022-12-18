@@ -7,6 +7,7 @@ import 'package:learning/src/modules/courses/presentation_layer/components/cours
 import 'package:learning/src/modules/courses/presentation_layer/screens/main_screen.dart';
 
 import '../../../../core/utils/font_manager.dart';
+import '../components/bloc_widgets.dart';
 
 class Home extends StatelessWidget
 {
@@ -23,17 +24,7 @@ class Home extends StatelessWidget
           Text ('Ongoing Courses' , style: TextStyle (color: ColorManager.black ,
             fontSize: FontSizeManager.s22 , fontWeight: FontWeightManager.maxWeight,),),
          // SizedBox(height: 30,),
-       Container(
-         height: 200 ,
-         child: ListView.separated(
-             physics: BouncingScrollPhysics(),
-             itemBuilder:
-             (context, index) => onGoingBuilder(index, courses[index],),
-             separatorBuilder:  (context, index) => SizedBox(width: 20,) ,
-             itemCount: 4,
-             scrollDirection :
-         Axis.horizontal ),
-       ),
+         OnGoingWidget (),
          // SizedBox(height: SizeManager.s20,),
           Row
             (
