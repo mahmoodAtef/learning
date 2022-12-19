@@ -79,7 +79,21 @@ class CoursesRemoteDataSource extends BaseCoursesRemoteDataSource {
   }
 
   @override
-  Future<Either<FirebaseException, List<Course>>> getMostPopularCourses() {
-    throw UnimplementedError();
+  Future<Either<FirebaseException, List<Course>>>
+      getMostPopularCourses() async {
+    try {
+      List<Course> courses = [];
+      await FirebaseFirestore.instance
+          .collection('courses')
+          .get()
+          .then((value) {
+        value.docs.forEach((element) {
+          courses.add(CourseModel.fromJson(element.data()));
+        });
+      });
+      return Right(courses);
+    } on FirebaseException catch (error) {
+      return Left(error);
+    }
   }
 }

@@ -4,10 +4,13 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:learning/src/modules/authentication/presentation_layer/components/components.dart';
+import 'package:learning/src/modules/courses/domain_layer/use_cases/get_most_popular_usecase.dart';
 import 'package:learning/src/modules/courses/domain_layer/use_cases/get_ongoing_usecase.dart';
 import 'package:learning/src/modules/courses/domain_layer/use_cases/get_user_usecase.dart';
 import '../../../../core/services/dep_injection.dart';
 import '../../../user/presentation_layer/screens/cart.dart';
+import '../../domain_layer/entities/course.dart';
 import '../../domain_layer/entities/ongoing_course.dart';
 import '../../domain_layer/entities/ongoing_data.dart';
 import '../../domain_layer/entities/user.dart';
@@ -31,6 +34,7 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
   ];
   late AppUser user = AppUser();
   List<OnGoingCourse> onGoingCourses = [];
+  late List<Course> mostPopular = [];
   CoursesBloc(CoursesInitial coursesInitial) : super(CoursesInitial()) {
     on<CoursesEvent>((event, emit) async {
       if (event is GetUserEvent) {
@@ -42,15 +46,27 @@ class CoursesBloc extends Bloc<CoursesEvent, CoursesState> {
         });
       }
       if (event is GetOngoingCoursesEvent) {
-        emit(GetOnGoingLoadingState());
+        emit(const GetOnGoingLoadingState());
         Either<FirebaseException, List<OnGoingCourse>> response =
             await GetOngoingCoursesUseCase(sl()).call(event.ongoingData);
-        response.fold((l) {}, (r) {
+        response.fold((l) {
+          errorToast(msg: l.message!);
+          emit(GetOnGoingErrorState(l));
+        }, (r) {
           onGoingCourses = r;
-          emit(GetOnGoingSuccessFulState());
+          emit(GetOnGoingSuccessFulState(r));
         });
-        print(response);
       } else if (event is GetMostPopularCoursesEvent) {
+        Either<FirebaseException, List<Course>> response =
+            await GetMostPopularUseCase(sl()).call();
+        response.fold((l) {
+          errorToast(msg: l.message!);
+          emit(GetMostPopularErrorState(l));
+        }, (r) {
+          mostPopular = r;
+          print(r.toString() + 'llllllllllllllllllllllllllllllllllllllllllll');
+          emit(GetMostPopularSuccessFulState(r));
+        });
       } else if (event is ViewMostPopularCoursesEvent) {
       } else if (event is OpenNotificationsEvent) {
       } else if (event is OpenCourseEvent) {

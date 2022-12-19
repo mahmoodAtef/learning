@@ -14,7 +14,8 @@ class MainScreen extends StatelessWidget {
     final double height = QueryValues.height(context);
     final double width = QueryValues.width(context);
     return BlocProvider(
-  create: (context) => CoursesBloc(CoursesInitial())..add(GetUserEvent(uid: 'atjZPpyM10e7a1U0jU8NW7wPA2j1')),
+  create: (context) => 
+  CoursesBloc(CoursesInitial())..add(GetUserEvent(uid: 'atjZPpyM10e7a1U0jU8NW7wPA2j1'))..add(GetMostPopularCoursesEvent()),
   child: BlocConsumer<CoursesBloc, CoursesState> (
      listener: (context, state) {
        },
@@ -54,7 +55,7 @@ child: Padding(
      children: [
        Icon(Icons.settings),
        SizedBox(width: height * .01),
-       Text("Settings"),
+       Text ("Settings"),
      ],
       ),
 

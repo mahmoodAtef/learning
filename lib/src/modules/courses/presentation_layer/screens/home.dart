@@ -52,17 +52,7 @@ class Home extends StatelessWidget
             ],
           ),
           //SizedBox(height: 25,),
-          Container(
-            height:  MediaQuery.of(context).size.width * .7,
-            child: ListView.separated(
-                physics: BouncingScrollPhysics(),
-                itemBuilder:
-                    (context, index) => courseBuilder( course: courses[index] ,context: context ),
-                separatorBuilder:  (context, index) => SizedBox(width: 16) ,
-                itemCount: 4,
-                scrollDirection :
-                Axis.horizontal ),
-          )
+           MostPopularWidget ()
         ],
       ),
     );

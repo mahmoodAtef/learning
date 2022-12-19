@@ -34,6 +34,6 @@ class CoursesRepository extends BaseCoursesRepository {
     dynamic response =
         await baseCoursesRemoteDataSources.getMostPopularCourses();
     return response;
-    throw UnimplementedError();
+
   }
 }

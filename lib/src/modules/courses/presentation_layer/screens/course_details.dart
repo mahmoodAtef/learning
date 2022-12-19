@@ -17,67 +17,91 @@ class CourseDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  defaultAppBar (title: 'Details' ,leading: IconButton(onPressed: (){},
-          icon: Icon(Icons.arrow_back_ios)), actions:
-      [
-        Icons.bookmark
-      ]),
-      body:
-      Padding(
+      appBar: defaultAppBar(
+          title: 'Details',
+          leading: IconButton(
+              onPressed: () {}, icon: const Icon(Icons.arrow_back_ios)),
+          actions: [Icons.bookmark]),
+      body: Padding(
         padding: const EdgeInsets.all(PaddingManager.p20),
-        child: SingleChildScrollView (
+        child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          child: Column (
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children:
-            [
-              Text(course.name , style:  TextStyle (fontSize: FontSizeManager.s22, fontWeight: FontWeightManager.maxWeight ),overflow:
-              TextOverflow.ellipsis,maxLines: 2,),
-              SizedBox(height: 20,),
-              Container (
-                decoration: BoxDecoration (
-                    borderRadius: BorderRadius.circular(SizeManager.s15),
-                    image: DecorationImage (image: NetworkImage (course.image!), fit: BoxFit.cover)),
-                height: QueryValues.width(context) /2,
-                width:  QueryValues.width(context),
+            children: [
+              Text(
+                course.name,
+                style: TextStyle(
+                    fontSize: FontSizeManager.s22,
+                    fontWeight: FontWeightManager.maxWeight),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
               ),
-
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(SizeManager.s15),
+                    image: DecorationImage(
+                        image: NetworkImage(course.image!), fit: BoxFit.cover)),
+                height: QueryValues.width(context) / 2,
+                width: QueryValues.width(context),
+              ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical:  PaddingManager.p20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: PaddingManager.p20),
                 child: Row(
                   children: [
-                    Text( "Course Content : " , style:
-                    TextStyle (
-                        color: ColorManager.primary,
-                        fontSize: FontSizeManager.s22,
-                        fontWeight: FontWeightManager.bold ),
-                      overflow:
-                    TextOverflow.ellipsis,maxLines: 2,),
+                    Text(
+                      "Course Content : ",
+                      style: TextStyle(
+                          color: ColorManager.primary,
+                          fontSize: FontSizeManager.s22,
+                          fontWeight: FontWeightManager.bold),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
                     const Spacer(),
-                    Text('20 Videos & 7 Files' , style:
-                    TextStyle (fontSize: FontSizeManager.s16, fontWeight: FontWeightManager.semiBold ),overflow:
-                    TextOverflow.ellipsis,maxLines: 2,),
+                    Text(
+                      '20 Videos & 7 Files',
+                      style: TextStyle(
+                          fontSize: FontSizeManager.s16,
+                          fontWeight: FontWeightManager.semiBold),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
                   ],
                 ),
               ),
               ListView.separated(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics (),
-                  itemBuilder:  (context ,index )=> videoBuilder
-                    (videosTest[index], context) ,
-                  separatorBuilder: (context ,index )=>
-                      SizedBox(height: 20,), itemCount: videosTest.length),
-              Padding
-                (
-              padding: const EdgeInsets.symmetric(vertical: PaddingManager.p10),
-              child: MaterialButton(onPressed: (){}, child: Text('More Details ', style: TextStyle(color: ColorManager.white, fontWeight: FontWeightManager.bold),), color: ColorManager.primary, elevation: 5,),
-            ),
-
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) =>
+                      videoBuilder(videosTest[index], context),
+                  separatorBuilder: (context, index) => SizedBox(
+                        height: 20,
+                      ),
+                  itemCount: videosTest.length),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: PaddingManager.p10),
+                child: MaterialButton(
+                  onPressed: () {},
+                  child: Text(
+                    'More Details ',
+                    style: TextStyle(
+                        color: ColorManager.white,
+                        fontWeight: FontWeightManager.bold),
+                  ),
+                  color: ColorManager.primary,
+                  elevation: 5,
+                ),
+              ),
             ],
           ),
         ),
       ),
-
     );
   }
 }

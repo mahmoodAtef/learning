@@ -28,13 +28,17 @@ class CourseModel extends Course {
   }
 
   factory CourseModel.fromJson(Map<String, dynamic> json) {
+ List <Video> videos = [];
+    List  maps = json['videos'] != null ? json['videos'] as List : [];
+ maps.forEach((element) {
+   videos.add(VideoModel.fromJson(element));
+ });
     return CourseModel(
-      name: json["name"],
-      rate: json["rate"],
+      name: json["name"]?? "no name ",
+      rate: json["rate"] != null ?  json["rate"].toDouble(): 0.0,
       instructor: json["instructor"].toString(),
       image: json['image'],
-      videos: List.of(
-          json['videos'].docs().map((e) => VideoModel.fromJson(e.data()))),
+      videos: videos
     );
   }
 
