@@ -14,142 +14,136 @@ class MainScreen extends StatelessWidget {
     final double height = QueryValues.height(context);
     final double width = QueryValues.width(context);
     return BlocProvider(
-  create: (context) => 
-  CoursesBloc(CoursesInitial())..add(GetUserEvent(uid: 'atjZPpyM10e7a1U0jU8NW7wPA2j1'))..add(GetMostPopularCoursesEvent()),
-  child: BlocConsumer<CoursesBloc, CoursesState> (
-     listener: (context, state) {
-       },
-     builder: (context, state) {
-       int index = CoursesBloc.get(context).currentIndex;
-       return Scaffold(
-         appBar: defaultAppBar
-           (
-             title: 'learning',
-             // leading: IconButton(onPressed: (){
-             //
-             // },  icon: Icon(Icons.menu)),
+      create: (context) => CoursesBloc(CoursesInitial())
+        ..add(GetUserEvent(uid: 'atjZPpyM10e7a1U0jU8NW7wPA2j1'))
+        ..add(GetMostPopularCoursesEvent()),
+      child: BlocConsumer<CoursesBloc, CoursesState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          int index = CoursesBloc.get(context).currentIndex;
+          return Scaffold (
+            appBar: defaultAppBar(title: 'learning',
+                // leading: IconButton(onPressed: (){
+                //
+                // },  icon: Icon(Icons.menu)),
 
-             actions: [Icons.notifications]),
-         drawer: Drawer(
-
-child: Padding(
-  padding:  EdgeInsetsDirectional.only(start: width * .051),
-  child:   Column
-    (
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-    SizedBox(height: height * .09),
-    SizedBox(height: height * .037),
-    Text
-      (
-      'Welcome ${ CoursesBloc.get(context).user.name != null ? CoursesBloc.get(context).user.name: ".."  }',
-      style: TextStyle
-        (
-     color: ColorManager.black,
-     fontWeight: FontWeight.bold,
-     fontSize: 33,
+                actions: [Icons.notifications]),
+            drawer: Drawer(
+              child: Padding(
+                padding: EdgeInsetsDirectional.only(start: width * .051),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: height * .09),
+                    SizedBox(height: height * .037),
+                    Text(
+                      'Welcome ${CoursesBloc.get(context).user.name != null ? CoursesBloc.get(context).user.name : ".."}',
+                      style: TextStyle(
+                        color: ColorManager.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 33,
+                      ),
+                    ),
+                    SizedBox(height: height * .037),
+                    Row(
+                      children: [
+                        Icon(Icons.settings),
+                        SizedBox(width: height * .01),
+                        Text("Settings"),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            floatingActionButton: BlocBuilder<CoursesBloc, CoursesState>(
+              builder: (context, state) {
+                return FloatingActionButton(
+                  backgroundColor:
+                      index != 2 ? ColorManager.white : ColorManager.primary,
+                  onPressed: () {
+                    CoursesBloc.get(context)
+                        .add(ChangeBottomNavEvent(index: 2));
+                  },
+                  child: Icon(
+                    Icons.home,
+                    color:
+                        index == 2 ? ColorManager.white : ColorManager.primary,
+                  ),
+                );
+              },
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            bottomNavigationBar: BottomAppBar(
+                shape: const CircularNotchedRectangle(),
+                notchMargin: 7,
+                elevation: 5,
+                color: ColorManager.white,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                        child: IconButton(
+                      onPressed: () {
+                        CoursesBloc.get(context)
+                            .add(ChangeBottomNavEvent(index: 0));
+                      },
+                      icon: Icon(
+                        Icons.video_collection,
+                        color: index == 0
+                            ? ColorManager.primary
+                            : ColorManager.grey2,
+                      ),
+                    )),
+                    Expanded(
+                        child: IconButton(
+                      onPressed: () {
+                        CoursesBloc.get(context)
+                            .add(ChangeBottomNavEvent(index: 1));
+                      },
+                      icon: Icon(
+                        Icons.task,
+                        color: index == 1
+                            ? ColorManager.primary
+                            : ColorManager.grey2,
+                      ),
+                    )),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * .1,
+                    ),
+                    Expanded(
+                        child: IconButton(
+                      onPressed: () {
+                        CoursesBloc.get(context)
+                            .add(ChangeBottomNavEvent(index: 3));
+                      },
+                      icon: Icon(
+                        Icons.shopping_cart,
+                        color: index == 3
+                            ? ColorManager.primary
+                            : ColorManager.grey2,
+                      ),
+                    )),
+                    Expanded(
+                        child: IconButton(
+                      onPressed: () {
+                        CoursesBloc.get(context)
+                            .add(ChangeBottomNavEvent(index: 4));
+                      },
+                      icon: Icon(Icons.school),
+                      color: index == 4
+                          ? ColorManager.primary
+                          : ColorManager.grey2,
+                    )),
+                  ],
+                )),
+            body: CoursesBloc.get(context).currentPage,
+          );
+        },
       ),
-    ),
-    SizedBox(height: height * .037),
-      Row(
-     children: [
-       Icon(Icons.settings),
-       SizedBox(width: height * .01),
-       Text ("Settings"),
-     ],
-      ),
-
-  ],),
-),
-         ),
-         floatingActionButton: BlocBuilder<CoursesBloc, CoursesState>(
-           builder: (context, state) {
-             return FloatingActionButton(
-               backgroundColor:
-                   index != 2 ? ColorManager.white : ColorManager.primary,
-               onPressed: () {
-                 CoursesBloc.get(context)
-                     .add(ChangeBottomNavEvent(index: 2));
-               },
-               child: Icon(
-                 Icons.home,
-                 color:
-                     index == 2 ? ColorManager.white : ColorManager.primary,
-               ),
-             );
-           },
-         ),
-         floatingActionButtonLocation:
-             FloatingActionButtonLocation.centerDocked,
-         bottomNavigationBar: BottomAppBar(
-             shape: const CircularNotchedRectangle(),
-             notchMargin: 7,
-             elevation: 5,
-             color: ColorManager.white,
-             child: Row(
-               mainAxisAlignment: MainAxisAlignment.spaceAround,
-               crossAxisAlignment: CrossAxisAlignment.end,
-               children: [
-                 Expanded(
-                     child: IconButton(
-                   onPressed: () {
-                     CoursesBloc.get(context)
-                         .add(ChangeBottomNavEvent(index: 0));
-                   },
-                   icon: Icon(
-                     Icons.video_collection,
-                     color: index == 0
-                         ? ColorManager.primary
-                         : ColorManager.grey2,
-                   ),
-                 )),
-                 Expanded(
-                     child: IconButton(
-                   onPressed: () {
-                     CoursesBloc.get(context)
-                         .add(ChangeBottomNavEvent(index: 1));
-                   },
-                   icon: Icon(
-                     Icons.task,
-                     color: index == 1
-                         ? ColorManager.primary
-                         : ColorManager.grey2,
-                   ),
-                 )),
-                 SizedBox(
-                   width: MediaQuery.of(context).size.width * .1,
-                 ),
-                 Expanded(
-                     child: IconButton(
-                   onPressed: () {
-                     CoursesBloc.get(context)
-                         .add(ChangeBottomNavEvent(index: 3));
-                   },
-                   icon: Icon(
-                     Icons.shopping_cart,
-                     color: index == 3
-                         ? ColorManager.primary
-                         : ColorManager.grey2,
-                   ),
-                 )),
-                 Expanded(
-                     child: IconButton(
-                   onPressed: () {
-                     CoursesBloc.get(context)
-                         .add(ChangeBottomNavEvent(index: 4));
-                   },
-                   icon: Icon(Icons.school),
-                   color: index == 4
-                       ? ColorManager.primary
-                       : ColorManager.grey2,
-                 )),
-               ],
-             )),
-         body: CoursesBloc.get(context).currentPage,
-       );
-     },
-      ),
-);
+    );
   }
 }
 

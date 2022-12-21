@@ -39,6 +39,11 @@ dependencies:
   build_runner:
   fluttertoast: ^8.1.1
   get_it:
+  path_provider:
+  permission_handler:
+  youtube_player_flutter:
+  youtube_explode_dart:
+  youtube_video_info:
   #fire base
   firebase_core: 2.3.0
   firebase_auth_oauth_platform_interface:

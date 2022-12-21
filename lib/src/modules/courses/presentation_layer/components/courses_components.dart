@@ -1,5 +1,7 @@
 import 'dart:ui';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:learning/src/modules/courses/presentation_layer/screens/play_video.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -14,6 +16,7 @@ import '../../../../core/utils/font_manager.dart';
 import '../../../../core/utils/values_manager.dart';
 import '../../domain_layer/entities/course.dart';
 import '../../domain_layer/entities/video.dart';
+import '../bloc/courses_bloc.dart';
 
 Widget courseBuilder({
   required Course course,
@@ -54,7 +57,7 @@ Widget courseBuilder({
                       children: [
                         Text(
                           course.name,
-                          style: TextStyle(
+                          style: const TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontWeight: FontWeightManager.bold,
                             fontSize: FontSizeManager.s18,
@@ -83,7 +86,7 @@ Widget courseBuilder({
                                   fontSize: 15.0),
                               //valueLabelRadius: 10,
                               maxValue: 5,
-                              valueLabelPadding: EdgeInsets.only(left: 5),
+                              valueLabelPadding: const EdgeInsets.only(left: 5),
                               starSpacing: 2,
                               maxValueVisibility: false,
                               valueLabelVisibility: true,
@@ -103,9 +106,9 @@ Widget courseBuilder({
           )));
 }
 
-Widget onGoingBuilder(int i, OnGoingCourse course) {
-  return i % 2 == 0
-      ? Container(
+Widget onGoingBuilder(int index, OnGoingCourse course) {
+  return index % 2 == 0
+      ? Container (
           width: 330,
           padding: const EdgeInsets.all(PaddingManager.p10),
           decoration: BoxDecoration(
@@ -179,7 +182,7 @@ Widget onGoingBuilder(int i, OnGoingCourse course) {
             ],
           ),
         )
-      : Container(
+      : Container (
           padding: const EdgeInsets.all(PaddingManager.p10),
           decoration: BoxDecoration(
             color: ColorManager.yellow,
@@ -267,9 +270,9 @@ AppBar defaultAppBar({
     backgroundColor: ColorManager.white,
     centerTitle: true,
     title: Text(
-      title!,
+      title,
     ),
-    leading: leading ?? null,
+    leading: leading,
     actions: actions != null
         ? actions
             .map((e) => Padding(
@@ -283,150 +286,151 @@ AppBar defaultAppBar({
                 ))
             .toList()
         : null,
-    shape: StadiumBorder(),
+    shape: const StadiumBorder(),
   );
 }
 
-Widget videoBuilder(Video video, BuildContext context) {
-  return Card(
-    child: InkWell(
-      onTap: () {},
-      child: Container(
-        margin: EdgeInsets.zero,
-        padding: EdgeInsets.zero,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(SizeManager.s15),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: Container(
-          width: QueryValues.width(context),
-          height: QueryValues.width(context) / 5,
-          padding: EdgeInsets.all(PaddingManager.p10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Padding(
-                padding: const EdgeInsetsDirectional.only(end: 10),
-                child: Stack(
-                  children: [
-                    Container(
-                      height: QueryValues.width(context) / 5,
-                      width: QueryValues.width(context) / 5,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(SizeManager.s10)),
-                          image: DecorationImage(
-                              image: NetworkImage(video.image),
-                              fit: BoxFit.cover)),
-                    ),
-                    Container(
-                      height: QueryValues.width(context) / 5,
-                      width: QueryValues.width(context) / 5,
-                      decoration: BoxDecoration(
-                        color: ColorManager.black.withOpacity(.4),
-                        borderRadius:
-                            BorderRadius.all(Radius.circular(SizeManager.s10)),
-                      ),
-                      child: Center(
-                          child: Icon(
-                        Icons.play_circle,
-                        color: ColorManager.grey1,
-                      )),
-                    )
-                  ],
-                ),
-              ),
-              Expanded(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+Widget videoBuilder(AppVideo video, BuildContext context) {
+  YoutubePlayerController controller = YoutubePlayerController(
+      initialVideoId: video.id,
+      flags: const YoutubePlayerFlags(
+        autoPlay: false,
+      ));
+  return Card (
+        child: InkWell(
+          onTap: () {
+            NavigationManager.push(context, PlayVideoScreen(video: video));
+          },
+          child: Container(
+            margin: EdgeInsets.zero,
+            padding: EdgeInsets.zero,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular (SizeManager.s15),
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: Container(
+              width: double.infinity,
+              height: QueryValues.height(context) / 10,
+              padding: const EdgeInsets.all(PaddingManager.p10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text(
-                    video.title ?? 'UnTitled Video ',
-                    style: TextStyle(
-                        fontSize: FontSizeManager.s16,
-                        fontWeight: FontWeightManager.bold,
-                        color: ColorManager.black),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(end: 10),
+                    child: Stack(
+                      children: [
+                        Container(
+                          height: QueryValues.width(context) / 5,
+                          width: QueryValues.width(context) / 5,
+                          child: YoutubePlayer(
+                              controller: controller,
+                              width: QueryValues.width(context) / 5),
+                        ),
+                        Container(
+                          height: QueryValues.width(context) / 5,
+                          width: QueryValues.width(context) / 5,
+                          decoration: BoxDecoration(
+                            color: ColorManager.black.withOpacity(.4),
+                            borderRadius: const BorderRadius.all(
+                                Radius.circular(SizeManager.s10)),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                  Text(
-                    video.time,
-                    style: TextStyle(
-                        fontSize: FontSizeManager.s14,
-                        fontWeight: FontWeightManager.bold,
-                        color: ColorManager.grey2),
-                  ),
+                  Expanded(
+                      child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          video.title,
+                          style: TextStyle(
+                              fontSize: FontSizeManager.s16,
+                              fontWeight: FontWeightManager.bold,
+                              color: ColorManager.black,
+                              height: .97),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Text(
+                        video.time.substring(0, 7),
+                        style: TextStyle(
+                            fontSize: FontSizeManager.s14,
+                            fontWeight: FontWeightManager.bold,
+                            color: ColorManager.grey2),
+                      ),
+                    ],
+                  )),
+                  const Icon(Icons.arrow_forward_ios)
                 ],
-              )),
-              Icon(Icons.arrow_forward_ios)
-            ],
+              ),
+            ),
           ),
         ),
-      ),
-    ),
-  );
+      );
+
+
 }
 
-List<Video> videosTest = [
-  Video(
-      url: '',
-      image: 'https://www.bing.com/th?id=OIP.MZF3Wgi_8LDeVbwG1j92aA'
-          'HaLH&w=204&h=306&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2',
+List<AppVideo> videosTest = [
+  AppVideo(
+      id: 'VruwCyoEMf0',
+      url: 'https://www.youtube.com/watch?v=VruwCyoEMf0',
       time: '20:02',
       title:
           'Video 1 Title Video 1 Title Video 1 Title Video 1 Title Video 1 TitleVideo 1 Title Video 1 Title Video 1 Title Video 1 Title '),
-  Video(
+  AppVideo(
+    title: '',
+    id: 'VruwCyoEMf0',
     url: '',
-    image: 'https://www.bing.com/th?id=OIP.MZF3Wgi_8LDeVbwG1j92aA'
-        'HaLH&w=204&h=306&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2',
     time: '20:02',
   ),
-  Video(
-      url: '',
-      image: 'https://www.bing.com/th?id=OIP.MZF3Wgi_8LDeVbwG1j92aA'
-          'HaLH&w=204&h=306&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2',
+  AppVideo(
+      id: 'VruwCyoEMf0',
+      url: 'https://www.youtube.com/watch?v=VruwCyoEMf0',
       time: '20:02',
       title:
           'Video 1 Title Video 1 Title Video 1 Title Video 1 Title Video 1 TitleVideo 1 Title Video 1 Title Video 1 Title Video 1 Title '),
-  Video(
-      url: '',
-      image: 'https://www.bing.com/th?id=OIP.MZF3Wgi_8LDeVbwG1j92aA'
-          'HaLH&w=204&h=306&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2',
+  AppVideo(
+      id: 'VruwCyoEMf0',
+      url: 'https://www.youtube.com/watch?v=VruwCyoEMf0',
       time: '20:02',
       title:
           'Video 1 Title Video 1 Title Video 1 Title Video 1 Title Video 1 TitleVideo 1 Title Video 1 Title Video 1 Title Video 1 Title '),
-  Video(
-      url: '',
-      image: 'https://www.bing.com/th?id=OIP.MZF3Wgi_8LDeVbwG1j92aA'
-          'HaLH&w=204&h=306&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2',
+  AppVideo(
+      id: 'VruwCyoEMf0',
+      url: 'https://www.youtube.com/watch?v=VruwCyoEMf0',
       time: '20:02',
       title:
           'Video 1 Title Video 1 Title Video 1 Title Video 1 Title Video 1 TitleVideo 1 Title Video 1 Title Video 1 Title Video 1 Title '),
 ];
-
-class CourseTest extends StatelessWidget {
-  const CourseTest({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        backgroundColor: ColorManager.primary,
-      ),
-      body: Center(
-        child: courseBuilder(
-          course: Course(
-            name: 'lol',
-            rate: 3.5,
-            instructor: "ahmed",
-            videos: [],
-          ),
-          context: context,
-        ),
-      ),
-    );
-  }
-}
+//
+// class CourseTest extends StatelessWidget {
+//   const CourseTest({Key? key}) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.grey[100],
+//       appBar: AppBar(
+//         backgroundColor: ColorManager.primary,
+//       ),
+//       body: Center(
+//         child: courseBuilder(
+//           course: const Course(
+//
+//             name: 'lol',
+//             rate: 3.5,
+//             instructor: "ahmed",
+//             videos: [],
+//           ),
+//           context: context,
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 // Column(
 // mainAxisAlignment: MainAxisAlignment.center,

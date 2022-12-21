@@ -2,12 +2,12 @@ import 'package:learning/src/modules/courses/domain_layer/entities/ongoing_data.
 import 'package:learning/src/modules/courses/domain_layer/repsitories/base_courses_repository.dart';
 
 class GetOngoingCoursesUseCase {
-  BaseCoursesRepository baseCoursesRepository ;
+  BaseCoursesRepository baseCoursesRepository;
   GetOngoingCoursesUseCase(this.baseCoursesRepository);
-  call(List<OnGoingData> onGoingData)
-  async {
-    dynamic response =await baseCoursesRepository.getOnGoingCourses(onGoingData: onGoingData);
-  
-   return await response;
+  call(List<OnGoingData> onGoingData) async {
+    dynamic response =
+        await baseCoursesRepository.getOnGoingCourses(onGoingData: onGoingData);
+
+    return await response;
   }
 }

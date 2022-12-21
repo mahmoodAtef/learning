@@ -5,9 +5,17 @@ class Course extends Equatable {
   final String name;
   final String? image;
   final String instructor;
-  final List<Video> videos;
+  List<AppVideo> videos;
+  final double? oldPrice;
+  final double? newPrice;
+  final String description;
+  final int subscribers;
   final double rate;
-  const Course({
+  Course({
+    required this.description,
+    required this.subscribers,
+    required this.oldPrice,
+    this.newPrice,
     required this.name,
     this.image,
     required this.videos,

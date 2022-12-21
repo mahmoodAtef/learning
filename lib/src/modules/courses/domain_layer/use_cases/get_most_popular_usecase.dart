@@ -1,9 +1,9 @@
 import 'package:learning/src/modules/courses/domain_layer/repsitories/base_courses_repository.dart';
 
 class GetMostPopularUseCase {
-  BaseCoursesRepository baseCoursesRepository ;
+  BaseCoursesRepository baseCoursesRepository;
   GetMostPopularUseCase(this.baseCoursesRepository);
-  call(){
+  call() {
     return baseCoursesRepository.getMostPopularCourses();
   }
 }

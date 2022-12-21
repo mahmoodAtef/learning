@@ -1,13 +1,17 @@
 import 'package:equatable/equatable.dart';
 
-class Video extends Equatable{
- final String ? title ;
- final String url ;
-final  String image ;
- final String time;
+class AppVideo extends Equatable {
+  final String title;
+  final String url;
+  final String time;
+  final String id;
 
- const Video( {this.title, required this.url, required this.image , required this.time});
+  AppVideo(
+      {required this.title,
+      required this.url,
+      required this.time,
+      required this.id});
 
   @override
-  List<Object?> get props =>[title , url , image , time];
+  List<Object?> get props => [title, url, time];
 }

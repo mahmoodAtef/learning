@@ -41,54 +41,92 @@ class ChangeBottomNavState extends CoursesState {
 }
 
 /// ongoing
-class GetOnGoingLoadingState extends CoursesState
-{
+class GetOnGoingLoadingState extends CoursesState {
   const GetOnGoingLoadingState();
   @override
-
   List<Object?> get props => [];
 }
 
 class GetOnGoingSuccessFulState extends CoursesState {
-  List <OnGoingCourse> courses ;
-  GetOnGoingSuccessFulState (this.courses);
+  List<OnGoingCourse> courses;
+  GetOnGoingSuccessFulState(this.courses);
   @override
-
   List<Object?> get props => [courses];
 }
 
-
-
 class GetOnGoingErrorState extends CoursesState {
-FirebaseException error ;
-GetOnGoingErrorState(this.error);
+  FirebaseException error;
+  GetOnGoingErrorState(this.error);
   @override
   List<Object?> get props => [error];
 }
 
 /// most popular
 
-class GetMostPopularLoadingState extends CoursesState
-{
+class GetMostPopularLoadingState extends CoursesState {
   const GetMostPopularLoadingState();
   @override
-
   List<Object?> get props => [];
 }
 
 class GetMostPopularSuccessFulState extends CoursesState {
-  List<Course> courses ;
+  List<Course> courses;
   GetMostPopularSuccessFulState(this.courses);
   @override
-
   List<Object?> get props => [];
 }
 
-
-
 class GetMostPopularErrorState extends CoursesState {
-  FirebaseException error ;
+  FirebaseException error;
   GetMostPopularErrorState(this.error);
+  @override
+  List<Object?> get props => [error];
+}
+
+class ChangeCourseTabState extends CoursesState {
+  int index;
+  ChangeCourseTabState(this.index);
+  @override
+  List<Object?> get props => [index];
+}
+
+/// get videos data
+class GetVideosDataLoadingState extends CoursesState {
+  const GetVideosDataLoadingState();
+  @override
+  List<Object?> get props => [];
+}
+
+class GetVideosDataSuccessFulState extends CoursesState {
+  List<AppVideo> videos;
+  GetVideosDataSuccessFulState(this.videos);
+  @override
+  List<Object?> get props => [videos];
+}
+
+class GetVideosDataErrorState extends CoursesState {
+  YoutubeExplodeException error;
+  GetVideosDataErrorState(this.error);
+  @override
+  List<Object?> get props => [error];
+}
+
+class GetInstructorLoadingState extends CoursesState {
+  const GetInstructorLoadingState();
+  @override
+  List<Object?> get props => [];
+}
+
+class GetInstructorSuccessFulState extends CoursesState {
+  Instructor instructor;
+  GetInstructorSuccessFulState(this.instructor);
+  @override
+  List<Object?> get props => [instructor];
+}
+
+class GetInstructorErrorState extends CoursesState {
+  FirebaseException error;
+  GetInstructorErrorState(this.error);
   @override
   List<Object?> get props => [error];
 }
